@@ -12,9 +12,12 @@ import static org.testng.Assert.*;
 
 
 public class task1 extends TestBase{
+    public static String responsBody;
+    public static long id;
+
 
     @Test
-    public void test(){
+    public void test1(){
 
 
         String body = "{\n" +
@@ -48,12 +51,52 @@ public class task1 extends TestBase{
 
 
         Map<String, Object> postedValues = response.body().as(Map.class);
-
-
+        responsBody= response.asString();
+        assertTrue(responsBody.contains("Scout"));
+        System.out.println(postedValues.get("id"));
+        id=(long)postedValues.get("id");
+        System.out.println(id);
 
     }
 
+    @Test
+    public void test2(){
+
+        Response response = given().accept(ContentType.JSON)
+                .and().pathParam("petId",id)
+                .when().get("pet/{petId}");
+        assertEquals(response.statusCode(),200);
+        assertTrue(response.headers().hasHeaderWithName("Date"));
+        assertEquals(response.contentType(), "application/json");
+
+        response.prettyPrint();
+
+        Map<String, Object> receivedValues=response.body().as( Map.class);
+        assertEquals(response.asString(),task1.responsBody);
+
+        System.out.println("again: "+id);
+
     }
+
+    @Test
+
+    public void test3(){
+
+        Response response=given().accept(ContentType.JSON)
+                .and().pathParam("petId",id)
+                .when().delete("pet/{petId}");
+        assertEquals(response.statusCode(),200);
+        assertEquals(response.contentType(), "application/json");
+
+        String type=response.path("type");
+        String message= response.path("message");
+        assertEquals(type, "unknown");
+        assertEquals(message,Long.toString(id));
+
+    }
+
+
+}
 
 
 
