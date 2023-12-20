@@ -2,7 +2,8 @@ package petTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.ExtentReporter;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.ITestResult;
@@ -25,7 +26,7 @@ public class TestBase {
 
     protected static ExtentReports report;
     //this class is used to create HTML report file
-    protected static ExtentHtmlReporter htmlReporter;
+    protected static ExtentSparkReporter htmlReporter;
     //this will  define a test, enables adding logs, authors, test steps
     protected static ExtentTest extentLogger;
 
@@ -46,7 +47,7 @@ public class TestBase {
         String path = projectPath + "/test-output/report.html";
 
         //initialize the html reporter with the report path
-        htmlReporter = new ExtentHtmlReporter(path);
+        htmlReporter = new ExtentSparkReporter(path);
 
         //attach the html report to report object
         report.attachReporter(htmlReporter);
