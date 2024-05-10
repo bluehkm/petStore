@@ -42,7 +42,7 @@ public class task1 extends TestBase{
         Response response = given().accept(ContentType.JSON)
                 .and().contentType(ContentType.JSON)
                 .and().body(body)
-                .when().post("pet/");
+                .when().post("/pet");
         assertEquals(response.statusCode(), 200);
         assertEquals(response.contentType(), "application/json");
         assertTrue(response.headers().hasHeaderWithName("Date"));
@@ -52,6 +52,7 @@ public class task1 extends TestBase{
 
         Map<String, Object> postedValues = response.body().as(Map.class);
         responsBody= response.asString();
+        System.out.println(responsBody);
         assertTrue(responsBody.contains("Scout"));
         System.out.println(postedValues.get("id"));
         id=(long)postedValues.get("id");
